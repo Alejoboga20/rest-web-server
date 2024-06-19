@@ -13,3 +13,5 @@ openssl req -x509 -sha256 -nodes -days 365 -newkey rsa:2048 -keyout server.key -
 ```
 
 Put the generated keys in `keys` folder.
+
+1. Create `.env` file in the root directory of the project by renaming the `.env.template` file.
