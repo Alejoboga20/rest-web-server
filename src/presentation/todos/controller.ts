@@ -15,8 +15,9 @@ export class TodosController {
 
 	public getTodoById = (req: Request, res: Response) => {
 		const todoId = parseInt(req.params.id);
-		const todo = todos.find((todo) => todo.id === todoId);
+		if (isNaN(todoId)) return res.status(400).json({ message: 'Invalid ID supplied' });
 
+		const todo = todos.find((todo) => todo.id === todoId);
 		todo ? res.json(todo) : res.status(404).json({ message: 'Todo not found' });
 	};
 }
