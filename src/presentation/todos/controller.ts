@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 
 const todos = [
 	{ id: 1, name: 'Do laundry', completed: false, createdAt: new Date() },
-	{ id: 2, name: 'Buy groceries', completed: false, createdAt: new Date() },
+	{ id: 2, name: 'Buy groceries', completed: true, createdAt: new Date() },
 	{ id: 3, name: 'Clean bathroom', completed: false, createdAt: new Date() },
 ];
 
@@ -22,8 +22,19 @@ export class TodosController {
 	};
 
 	public createTodo = (req: Request, res: Response) => {
-		const body = req.body;
+		const { name } = req.body;
 
-		return res.status(201).json({ message: 'Todo created' });
+		if (!name) return res.status(400).json({ message: 'Name is required' });
+
+		const newTodo = {
+			name: name,
+			id: todos.length + 1,
+			completed: false,
+			createdAt: new Date(),
+		};
+
+		todos.push(newTodo);
+
+		return res.status(201).json({ message: 'Todo created', newTodo });
 	};
 }
