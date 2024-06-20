@@ -23,6 +23,16 @@ export class Server {
 		// Middlewares
 		this.app.use(express.static(this.publicPath));
 
+		// Routes
+		this.app.get('/api/todos', (req, res) => {
+			res.json([
+				{ id: 1, text: 'Buy milk', done: false, createdAt: new Date() },
+				{ id: 2, text: 'Buy bread', done: true, createdAt: new Date() },
+				{ id: 3, text: 'Buy meat', done: false, createdAt: new Date() },
+			]);
+		});
+
+		// Spa router
 		this.app.get('*', (req, res) => {
 			const indexPath = path.join(__dirname, '..', '..', this.publicPath, 'index.html');
 			res.sendFile(indexPath);
