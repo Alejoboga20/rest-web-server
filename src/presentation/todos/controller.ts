@@ -37,4 +37,25 @@ export class TodosController {
 
 		return res.status(201).json({ message: 'Todo created', newTodo });
 	};
+
+	public updateTodo = (req: Request, res: Response) => {
+		const todoId = parseInt(req.params.id);
+
+		if (isNaN(todoId)) return res.status(400).json({ message: 'Invalid ID supplied' });
+
+		const todo = todos.find((todo) => todo.id === todoId);
+
+		if (!todo) return res.status(404).json({ message: 'Todo not found' });
+
+		const { name, completed } = req.body;
+
+		if (!name && typeof completed !== 'boolean')
+			return res.status(400).json({ message: 'Name is required' });
+
+		if (typeof completed === 'boolean') todo.completed = completed;
+
+		todo.name = name;
+
+		return res.json({ message: 'Todo updated', todo });
+	};
 }
