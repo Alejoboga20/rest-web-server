@@ -20,4 +20,10 @@ export class TodosController {
 		const todo = todos.find((todo) => todo.id === todoId);
 		todo ? res.json(todo) : res.status(404).json({ message: 'Todo not found' });
 	};
+
+	public createTodo = (req: Request, res: Response) => {
+		const body = req.body;
+
+		return res.status(201).json({ message: 'Todo created' });
+	};
 }

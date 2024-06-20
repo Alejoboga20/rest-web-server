@@ -24,6 +24,8 @@ export class Server {
 
 	async start() {
 		// Middlewares
+		this.app.use(express.json()); // handle json requests
+		this.app.use(express.urlencoded({ extended: true })); // handle form data
 		this.app.use(express.static(this.publicPath));
 
 		// Routes
