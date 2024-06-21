@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import { prisma } from '../../data/postgres';
-import { CreateTodoDto } from '../../domain/dtos';
+import { CreateTodoDto, UpdateTodoDto } from '../../domain/dtos';
 
 export class TodosController {
 	constructor() {}
@@ -36,20 +36,23 @@ export class TodosController {
 
 	public updateTodo = async (req: Request, res: Response) => {
 		const todoId = parseInt(req.params.id);
-		const { text, completedAt } = req.body;
 
-		if (isNaN(todoId)) return res.status(400).json({ message: 'Invalid ID supplied' });
+		const [error, updateTodoDto] = UpdateTodoDto.udpate({
+			...req.body,
+			id: todoId,
+		});
+
+		if (error) return res.status(400).json({ error });
 
 		const todo = await prisma.todo.findUnique({ where: { id: todoId } });
-
 		if (!todo) return res.status(404).json({ message: 'Todo not found' });
 
 		const updatedTodo = await prisma.todo.update({
 			where: { id: todoId },
-			data: { text, completedAt: completedAt ? new Date(completedAt) : null },
+			data: updateTodoDto!.values,
 		});
 
-		return res.json({ message: 'Todo updated', todo: updatedTodo });
+		res.json({ message: 'Todo updated', todo: updatedTodo });
 	};
 
 	public deleteTodo = async (req: Request, res: Response) => {
