@@ -4,4 +4,21 @@ export class TodoEntity {
 	get isCompleted() {
 		return !!this.completedAt;
 	}
+
+	public static fromObject(object: { [key: string]: any }): TodoEntity {
+		let newCompletedAt;
+		const { id, text, completedAt } = object;
+
+		if (!id || !text) {
+			throw new Error('Invalid object');
+		}
+
+		if (completedAt) {
+			newCompletedAt = new Date(completedAt);
+			if (isNaN(newCompletedAt.getTime())) {
+				throw new Error('Invalid date');
+			}
+		}
+		return new TodoEntity(id, text, newCompletedAt);
+	}
 }
