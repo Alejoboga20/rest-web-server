@@ -7,5 +7,5 @@ export abstract class TodoRepository {
 	abstract getAll(): Promise<TodoEntity[]>;
 	abstract findById(id: number): Promise<TodoEntity | undefined>;
 	abstract updateById(updateTodoDto: UpdateTodoDto): Promise<TodoEntity | undefined>;
-	abstract deleteById(id: number): Promise<void>;
+	abstract deleteById(id: number): Promise<TodoEntity>;
 }
