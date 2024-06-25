@@ -13,7 +13,7 @@ export class TodoRepositoryImplementation implements TodoRepository {
 	findById(id: number): Promise<TodoEntity | undefined> {
 		return this.todoDataSource.findById(id);
 	}
-	updateById(updateTodoDto: UpdateTodoDto): Promise<TodoEntity | undefined> {
+	updateById(updateTodoDto: UpdateTodoDto): Promise<TodoEntity> {
 		return this.todoDataSource.updateById(updateTodoDto);
 	}
 	deleteById(id: number): Promise<TodoEntity> {
