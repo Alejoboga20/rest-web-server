@@ -11,7 +11,7 @@ export class TodosController {
 		new GetTodos(this.todoRepository)
 			.execute()
 			.then((todos) => res.json(todos))
-			.catch((error) => res.status(400).json({ error }));
+			.catch((error) => res.status(400).json({ error: `${error}` }));
 	};
 
 	public getTodoById = (req: Request, res: Response) => {
@@ -22,7 +22,7 @@ export class TodosController {
 		new GetTodo(this.todoRepository)
 			.execute(todoId)
 			.then((todo) => res.json(todo))
-			.catch((error) => res.status(400).json({ error }));
+			.catch((error) => res.status(400).json({ error: `${error}` }));
 	};
 
 	public createTodo = (req: Request, res: Response) => {
@@ -33,7 +33,7 @@ export class TodosController {
 		new CreateTodo(this.todoRepository)
 			.execute(createTodoDto!)
 			.then((todo) => res.json(todo))
-			.catch((error) => res.status(400).json({ error }));
+			.catch((error) => res.status(400).json({ error: `${error}` }));
 	};
 
 	public updateTodo = (req: Request, res: Response) => {
@@ -49,7 +49,7 @@ export class TodosController {
 		new UpdateTodo(this.todoRepository)
 			.execute(updateTodoDto!)
 			.then((todo) => res.json(todo))
-			.catch((error) => res.status(400).json({ error }));
+			.catch((error) => res.status(400).json({ error: `${error}` }));
 	};
 
 	public deleteTodo = (req: Request, res: Response) => {
@@ -59,6 +59,6 @@ export class TodosController {
 		new DeleteTodo(this.todoRepository)
 			.execute(todoId)
 			.then((deletedTodo) => res.json(deletedTodo))
-			.catch((error) => res.status(400).json({ error }));
+			.catch((error) => res.status(400).json({ error: `${error}` }));
 	};
 }
