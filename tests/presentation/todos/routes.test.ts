@@ -11,12 +11,15 @@ describe('Todo Tests', () => {
 		await testServer.start();
 	});
 
+	beforeEach(async () => {
+		await prisma.todo.deleteMany();
+	});
+
 	afterAll(() => {
 		testServer.close();
 	});
 
 	test('should return todos api/todos', async () => {
-		await prisma.todo.deleteMany();
 		await prisma.todo.createMany({ data: testData });
 
 		const { body } = await request(app).get('/api/todos').expect(200);
@@ -27,14 +30,10 @@ describe('Todo Tests', () => {
 	});
 
 	test('should return a todo by id', async () => {
-		await prisma.todo.deleteMany();
-
 		const todo = await prisma.todo.create({ data: testData[0] });
-		const todoId = todo.id;
 
-		const { body } = await request(app).get(`/api/todos/${todoId}`).expect(200);
+		const { body } = await request(app).get(`/api/todos/${todo.id}`).expect(200);
 
-		expect(body.text).toBe(testData[0].text);
-		expect(body.id).toBe(todoId);
+		expect(body).toEqual({ id: todo.id, text: todo.text });
 	});
 });
