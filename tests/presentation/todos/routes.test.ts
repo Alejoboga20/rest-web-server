@@ -29,11 +29,18 @@ describe('Todo Tests', () => {
 		expect(body[1].text).toBe('Hello world 2');
 	});
 
-	test('should return a todo by id', async () => {
+	test('should return a todo by id api/todos/:todoId', async () => {
 		const todo = await prisma.todo.create({ data: testData[0] });
 
 		const { body } = await request(app).get(`/api/todos/${todo.id}`).expect(200);
 
 		expect(body).toEqual({ id: todo.id, text: todo.text });
+	});
+
+	test('should return 404 - not found api/todos/:todoId', async () => {
+		const todoId = 0;
+		const response = await request(app).get(`/api/todos/${todoId}`).expect(400);
+
+		expect(response.body).toEqual({ error: `Error: Todo with id ${todoId} not found` });
 	});
 });
