@@ -43,4 +43,23 @@ describe('Todo Tests', () => {
 
 		expect(response.body).toEqual({ error: `Error: Todo with id ${todoId} not found` });
 	});
+
+	test('should create a todo', async () => {
+		const todo = { text: 'Hello world' };
+
+		const { body } = await request(app).post('/api/todos').send(todo).expect(201);
+
+		expect(body).toEqual({
+			text: todo.text,
+			id: expect.any(Number),
+		});
+	});
+
+	test('should return an error if text is not provided', async () => {
+		const todo = { text: '' };
+
+		const { body } = await request(app).post('/api/todos').send(todo).expect(400);
+
+		expect(body).toEqual({ error: 'text is required' });
+	});
 });
