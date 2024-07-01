@@ -8,7 +8,7 @@
 		"start": "npm run build && node dist/app.js",
 		"migrate:postgres:test": "dotenv -e .env.test -- npx prisma migrate deploy",
 		"test": "npm run migrate:postgres:test && jest",
-		"test:watch": "npm run migrate:postgres:test && jest --watch --detectOpenHandles",
+		"test:watch": "npm run migrate:postgres:test && jest --watch",
 		"test:coverage": "npm run migrate:postgres:test && jest --coverage"
 	},
 	"keywords": [],
