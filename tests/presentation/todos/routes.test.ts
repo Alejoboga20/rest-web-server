@@ -25,4 +25,16 @@ describe('Todo Tests', () => {
 		expect(body[0].text).toBe('Hello world 1');
 		expect(body[1].text).toBe('Hello world 2');
 	});
+
+	test('should return a todo by id', async () => {
+		await prisma.todo.deleteMany();
+
+		const todo = await prisma.todo.create({ data: testData[0] });
+		const todoId = todo.id;
+
+		const { body } = await request(app).get(`/api/todos/${todoId}`).expect(200);
+
+		expect(body.text).toBe(testData[0].text);
+		expect(body.id).toBe(todoId);
+	});
 });
