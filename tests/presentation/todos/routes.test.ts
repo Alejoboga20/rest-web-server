@@ -89,4 +89,10 @@ describe('Todo Tests', () => {
 
 		expect(body).toEqual({ id: todo.id, text: todo.text });
 	});
+
+	test('should return 404 if TODO not found api/todos/:id', async () => {
+		const { body } = await request(app).delete('/api/todos/1').expect(400);
+
+		expect(body).toEqual({ error: 'Error: Todo with id 1 not found' });
+	});
 });
