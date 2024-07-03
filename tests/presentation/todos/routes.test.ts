@@ -39,9 +39,9 @@ describe('Todo Tests', () => {
 
 	test('should return 404 - not found api/todos/:todoId', async () => {
 		const todoId = 0;
-		const response = await request(app).get(`/api/todos/${todoId}`).expect(400);
+		const response = await request(app).get(`/api/todos/${todoId}`).expect(404);
 
-		expect(response.body).toEqual({ error: `Error: Todo with id ${todoId} not found` });
+		expect(response.body).toEqual({ error: `Todo with id ${todoId} not found` });
 	});
 
 	test('should create a todo', async () => {
@@ -74,13 +74,13 @@ describe('Todo Tests', () => {
 		expect(body).toEqual({ id: todo.id, text: 'Hello world updated' });
 	});
 
-	test('should return bad request when TODO not found api/todos/:id', async () => {
+	test('should return 404 when TODO not found api/todos/:id', async () => {
 		const { body } = await request(app)
 			.put('/api/todos/1')
 			.send({ text: 'Hello world updated' })
-			.expect(400);
+			.expect(404);
 
-		expect(body).toEqual({ error: 'Error: Todo with id 1 not found' });
+		expect(body).toEqual({ error: 'Todo with id 1 not found' });
 	});
 
 	test('should delete TODO api/todos/:id', async () => {
@@ -91,8 +91,8 @@ describe('Todo Tests', () => {
 	});
 
 	test('should return 404 if TODO not found api/todos/:id', async () => {
-		const { body } = await request(app).delete('/api/todos/1').expect(400);
+		const { body } = await request(app).delete('/api/todos/1').expect(404);
 
-		expect(body).toEqual({ error: 'Error: Todo with id 1 not found' });
+		expect(body).toEqual({ error: 'Todo with id 1 not found' });
 	});
 });
