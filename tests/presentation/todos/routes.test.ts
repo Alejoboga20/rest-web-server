@@ -82,4 +82,11 @@ describe('Todo Tests', () => {
 
 		expect(body).toEqual({ error: 'Error: Todo with id 1 not found' });
 	});
+
+	test('should delete TODO api/todos/:id', async () => {
+		const todo = await prisma.todo.create({ data: testData[0] });
+		const { body } = await request(app).delete(`/api/todos/${todo.id}`).expect(200);
+
+		expect(body).toEqual({ id: todo.id, text: todo.text });
+	});
 });
