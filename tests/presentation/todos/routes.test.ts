@@ -62,4 +62,24 @@ describe('Todo Tests', () => {
 
 		expect(body).toEqual({ error: 'text is required' });
 	});
+
+	test('should update todo api/todos/:id', async () => {
+		const todo = await prisma.todo.create({ data: testData[0] });
+
+		const { body } = await request(app)
+			.put(`/api/todos/${todo.id}`)
+			.send({ text: 'Hello world updated' })
+			.expect(200);
+
+		expect(body).toEqual({ id: todo.id, text: 'Hello world updated' });
+	});
+
+	test('should return bad request when TODO not found api/todos/:id', async () => {
+		const { body } = await request(app)
+			.put('/api/todos/1')
+			.send({ text: 'Hello world updated' })
+			.expect(400);
+
+		expect(body).toEqual({ error: 'Error: Todo with id 1 not found' });
+	});
 });
